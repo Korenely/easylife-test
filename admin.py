@@ -13,7 +13,7 @@ class UserView(ModelView):
 
 
 class TransactionView(ModelView):
-    fields = ["id", "user", "transaction_type", "amount"]
+    fields = ["id", "user", "transaction_type", "amount", "created_at"]
 
 
 class StatisticsView(CustomView):
