@@ -15,16 +15,16 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 
-app.include_router(user_controller.router, tags=['user controllers'])
-app.include_router(transaction_controller.router, tags=['transaction controllers'])
+app.include_router(user_controller.router, tags=["user controllers"])
+app.include_router(transaction_controller.router, tags=["transaction controllers"])
 
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'],
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=['*'],
-    allow_headers=['*'],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -35,9 +35,7 @@ admin = Admin(
 
 admin.add_view(ModelView(User))
 admin.add_view(ModelView(Transaction))
-admin.add_view(
-    StatisticsAdmin(label="Statistics", path='/statistics')
-)
+admin.add_view(StatisticsAdmin(label="Statistics", path="/statistics"))
 
 
 admin.mount_to(app)
