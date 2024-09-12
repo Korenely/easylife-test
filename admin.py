@@ -5,9 +5,18 @@ from database import SessionLocal
 from sqlalchemy import func
 from datetime import datetime
 from starlette.templating import Jinja2Templates
+from starlette_admin.contrib.sqla import ModelView
 
 
-class StatisticsAdmin(CustomView):
+class UserView(ModelView):
+    fields = ["id", "username"]
+
+
+class TransactionView(ModelView):
+    fields = ["id", "user_id", "transaction_type", "amount"]
+
+
+class StatisticsView(CustomView):
 
     async def render(self, request: Request, templates: Jinja2Templates):
 
@@ -18,16 +27,11 @@ class StatisticsAdmin(CustomView):
         query = db.query(Transaction)
 
         if start_date:
-            print(start_date)
             start_date = datetime.strptime(start_date, "%Y-%m-%d")
-            start_date = int(start_date.timestamp())
             query = query.filter(Transaction.created_at >= start_date)
-            start_date = datetime.fromtimestamp(start_date).strftime("%Y-%m-%d")
         if end_date:
             end_date = datetime.strptime(end_date, "%Y-%m-%d")
-            end_date = int(end_date.timestamp())
             query = query.filter(Transaction.created_at <= end_date)
-            end_date = datetime.fromtimestamp(end_date).strftime("%Y-%m-%d")
 
         total_transactions = query.count()
         total_amount = (
@@ -42,9 +46,7 @@ class StatisticsAdmin(CustomView):
             context={
                 "total_transactions": total_transactions,
                 "total_amount": total_amount,
-                "start_date": (
-                    datetime.strptime(start_date, "%Y-%m-%d") if start_date else ""
-                ),
-                "end_date": datetime.strptime(end_date, "%Y-%m-%d") if end_date else "",
+                "start_date": start_date if start_date else "",
+                "end_date": end_date if end_date else "",
             },
         )

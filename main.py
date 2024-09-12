@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from starlette_admin.contrib.sqla import Admin, ModelView
+from starlette_admin.contrib.sqla import Admin
 
 from database import engine, Base
-from admin import StatisticsAdmin
-from models import User, Transaction
+from admin import StatisticsView, UserView, TransactionView
+from models import Transaction, User
 
 import user_controller
 import transaction_controller
@@ -30,12 +30,12 @@ app.add_middleware(
 
 admin = Admin(
     engine,
-    title="Admin Panel",
-    index_view=StatisticsAdmin(label="Home")
+    title="EasyLife",
+    index_view=StatisticsView(label="Home")
 )
 
-admin.add_view(ModelView(User))
-admin.add_view(ModelView(Transaction))
+admin.add_view(UserView(User))
+admin.add_view(TransactionView(Transaction))
 
 
 admin.mount_to(app)
