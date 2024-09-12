@@ -16,7 +16,7 @@ class Transaction(Base):
     __tablename__ = "transactions"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     transaction_type = Column(String, nullable=False)
     amount = Column(Float, default=1)
     created_at = Column(Date, default=date.today)
