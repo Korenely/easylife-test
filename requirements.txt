@@ -1,0 +1,3 @@
+fastapi==0.114.1
+starlette-admin==0.14.1
+SQLAlchemy==2.0.34
