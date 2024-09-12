@@ -31,11 +31,11 @@ app.add_middleware(
 admin = Admin(
     engine,
     title="Admin Panel",
+    index_view=StatisticsAdmin(label="Home")
 )
 
 admin.add_view(ModelView(User))
 admin.add_view(ModelView(Transaction))
-admin.add_view(StatisticsAdmin(label="Statistics", path="/statistics"))
 
 
 admin.mount_to(app)
